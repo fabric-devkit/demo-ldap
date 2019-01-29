@@ -1,5 +1,10 @@
 #! /bin/bash
 
+if [ "$#" -ne 2 ];
+    then echo "Usage: addUser.sh <firstname> <lastname>"
+    exit
+fi
+
 cat >/tmp/newUser.ldif <<EOF
 dn: cn=Dave,dc=example,dc=org
 changetype: add
@@ -10,4 +15,4 @@ objectClass: person
 objectClass: top
 EOF
 
-docker exec -b my-openldap-container ldapadd -x -w "adminpw" -D "cn=admin,dc=example,dc=org" -f /tmp/newUser.ldif
+#docker exec -b my-openldap-container ldapadd -x -w "adminpw" -D "cn=admin,dc=example,dc=org" -f /tmp/newUser.ldif
