@@ -11,8 +11,9 @@ set -ev
 export MSYS_NO_PATHCONV=1
 
 docker-compose -f docker-compose.yml down
-if [docker ps | grep my-openldap-container]; then
+if [docker ps -a | grep my-openldap-container]; then
     docker stop my-openldap-container
+    docker rm my-openldap-container
 fi
 
 ######################################################################
