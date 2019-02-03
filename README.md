@@ -20,9 +20,9 @@ To stop it, run ``stop.sh``
 To completely remove all incriminating evidence of the network
 on your system, run ``teardown.sh``.
 
-## LDAP
-Within the CA docker image:
-fabric-ca-client enroll -u http://admin:adminpw@localhost:7054
+## Usage
+To enrol the initial Admin user in the CA, run ``enrolAdmin.sh``.
+To add a new user to the LDAP server, run ``addUser.sh <firstname> <lastname>``. This will create a user with the username ``<firsrname><lastname>``. Enter a password for the user when prompted. You can then enrol this user in the CA using ``enrolUser.sh <username> <password>``.
 
 <a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>
 
