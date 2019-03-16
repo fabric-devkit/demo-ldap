@@ -10,13 +10,13 @@ if(args.length == 3) {
 }
 
 const readline = require('readline-sync');
-let password = readline.question("Enter password for user " + username);
+let password = readline.question("Enter password for user " + username + ": ");
 
 var fabricClient = require('./config/FabricClient');
 var FabricCAClient = require('fabric-ca-client');
 var connection = fabricClient;
 var fabricCAClient;
-var adminUser;
+var newUser;
 connection.initCredentialStores().then(() => {
   fabricCAClient = connection.getCertificateAuthority();
   return connection.getUserContext(username, true);
