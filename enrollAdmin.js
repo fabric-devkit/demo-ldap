@@ -1,4 +1,17 @@
 'use strict';
+const args = process.argv;
+console.log(args);
+let username = "";
+if(args.length == 3) {
+  username = args[2];
+} else {
+  console.log("Usage: node enrolUser.js <username>");
+  return;
+}
+
+const readline = require('readline-sync');
+let password = readline.question("Enter password for user " + username);
+
 var fabricClient = require('./config/FabricClient');
 var FabricCAClient = require('fabric-ca-client');
 var connection = fabricClient;
@@ -6,35 +19,35 @@ var fabricCAClient;
 var adminUser;
 connection.initCredentialStores().then(() => {
   fabricCAClient = connection.getCertificateAuthority();
-  return connection.getUserContext('admin', true);
+  return connection.getUserContext(username, true);
 }).then((user) => {
   if (user) {
-    throw new Error("Admin already exists");
+    throw new Error(username + " already exists");
   } else {
     return fabricCAClient.enroll({
-      enrollmentID: 'admin',
-      enrollmentSecret: 'adminpw',
+      enrollmentID: username,
+      enrollmentSecret: password,
       /*attr_reqs: [
           { name: "hf.Registrar.Roles" },
           { name: "hf.Registrar.Attributes" }
       ]*/
     }).then((enrollment) => {
-      console.log('Successfully enrolled admin user "admin"');
+      console.log('Successfully enrolled user "' + username + '"');
       return connection.createUser(
-          {username: 'admin',
+          {username: username,
               mspid: 'Org1MSP',
               cryptoContent: { privateKeyPEM: enrollment.key.toBytes(), signedCertPEM: enrollment.certificate }
           });
     }).then((user) => {
-      adminUser = user;
-      return connection.setUserContext(adminUser);
+      newUser = user;
+      return connection.setUserContext(newUser);
     }).catch((err) => {
-      console.error('Failed to enroll and persist admin. Error: ' + err.stack ? err.stack : err);
-      throw new Error('Failed to enroll admin');
+      console.error('Failed to enroll and persist user. Error: ' + err.stack ? err.stack : err);
+      throw new Error('Failed to enroll user');
     });
   }
 }).then(() => {
-    console.log('Assigned the admin user to the fabric client ::' + adminUser.toString());
+    console.log('Assigned the admin user to the fabric client ::' + newUser.toString());
 }).catch((err) => {
-    console.error('Failed to enroll admin: ' + err);
+    console.error('Failed to enroll user: ' + err);
 });

@@ -11,12 +11,8 @@ set -ev
 export MSYS_NO_PATHCONV=1
 
 docker-compose -f docker-compose.yml down
+# Separately take down the LDAP container 
 docker stop my-openldap-container || true && docker rm my-openldap-container || true
-
-#if [ docker ps -a | grep my-openldap-container ]; then
-#    docker stop my-openldap-container
-#    docker rm my-openldap-container
-#fi
 
 ######################################################################
 # Start the example LDAP server to authenticate against, specifying a default
@@ -30,7 +26,7 @@ docker-compose -f docker-compose.yml up -d ca.example.com orderer.example.com pe
 
 # wait for Hyperledger Fabric to start
 # incase of errors when running later commands, issue export FABRIC_START_TIMEOUT=<larger number>
-export FABRIC_START_TIMEOUT=10
+export FABRIC_START_TIMEOUT=20
 #echo ${FABRIC_START_TIMEOUT}
 sleep ${FABRIC_START_TIMEOUT}
 
