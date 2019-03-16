@@ -9,7 +9,7 @@ class ExampleNetwork {
   }
   init() {
     var isAdmin = false;
-    if (this.userName == "admin") {
+    if (this.userName === "admin") {
       isAdmin = true;
     }
     return this.connection.initCredentialStores().then(() => {

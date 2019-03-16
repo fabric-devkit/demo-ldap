@@ -1,0 +1,32 @@
+{
+  "name": "hlf-ldap",
+  "version": "1.0.0",
+  "description": "Nodejs interface to LDAP authentication",
+  "main": "index.js",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "express": "^4.16.4",
+    "fabric-ca-client": "^1.4.0",
+    "fabric-client": "^1.4.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/workingwithblockchain/hlf-ldap.git"
+  },
+  "keywords": [
+    "hyperledger",
+    "fabric",
+    "ldap"
+  ],
+  "author": "David Carrington",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/workingwithblockchain/hlf-ldap/issues"
+  },
+  "homepage": "https://github.com/workingwithblockchain/hlf-ldap#readme"
+}
