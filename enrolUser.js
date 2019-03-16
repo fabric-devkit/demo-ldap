@@ -10,7 +10,9 @@ if(args.length == 3) {
 }
 
 const readline = require('readline-sync');
-let password = readline.question("Enter password for user " + username + ": ");
+let password = readline.question("Enter password for user " + username + ": ", {
+  hideEchoBack: true
+});
 
 var fabricClient = require('./config/FabricClient');
 var FabricCAClient = require('fabric-ca-client');
