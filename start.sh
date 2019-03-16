@@ -11,10 +11,12 @@ set -ev
 export MSYS_NO_PATHCONV=1
 
 docker-compose -f docker-compose.yml down
-if [docker ps -a | grep my-openldap-container]; then
-    docker stop my-openldap-container
-    docker rm my-openldap-container
-fi
+docker stop my-openldap-container || true && docker rm my-openldap-container || true
+
+#if [ docker ps -a | grep my-openldap-container ]; then
+#    docker stop my-openldap-container
+#    docker rm my-openldap-container
+#fi
 
 ######################################################################
 # Start the example LDAP server to authenticate against, specifying a default
