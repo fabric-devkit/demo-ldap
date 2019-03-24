@@ -14,7 +14,7 @@ let password = readline.question("Enter password for user " + username + ": ", {
   hideEchoBack: true
 });
 
-var fabricClient = require('./config/FabricClient');
+var fabricClient = require('../config/FabricClient');
 var FabricCAClient = require('fabric-ca-client');
 var connection = fabricClient;
 var fabricCAClient;

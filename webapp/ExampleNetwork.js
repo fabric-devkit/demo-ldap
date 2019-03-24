@@ -1,4 +1,4 @@
-var fabricClient = require('./config/FabricClient');
+var fabricClient = require('../config/FabricClient');
 
 class ExampleNetwork {
   constructor(userName) {
