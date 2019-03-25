@@ -1,10 +1,9 @@
 var createError = require('http-errors');
 var express = require('express');
-var bodyParser = require("body-parser");
 var path = require('path');
+var bodyParser = require("body-parser");
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-var Console = require('console');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -52,8 +51,8 @@ app.post('/', function(request, response){
   var query1 = request.query.param1;
   var query2 = request.query.param2;
   //Console.log(request.query);
-  Console.log("Param1: ", query1);
-  Console.log("Param2: ", query2);
+  console.log("Param1: ", query1);
+  console.log("Param2: ", query2);
   response.sendStatus(200);
 });
 
@@ -72,7 +71,5 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
-
-
 
 module.exports = app;
