@@ -1,19 +1,23 @@
-const ExampleNetwork = require('./ExampleNetwork');
-
+const port = 3000;
 const express = require('express')
 const app = express()
 var bodyParser = require('body-parser')
 //Attach the middleware
 app.use( bodyParser.json() );
 
-app.post('/api/sell', function(req, res) {
-        var data = req.body.data;
-        var exampleNetwork = new ExampleNetwork('admin');
-exampleNetwork.init().then(function(data) {
-          return exampleNetwork.sell(data)
-        }).then(function (data) {
-          res.status(200).json(data)
-        }).catch(function(err) {
-          res.status(500).json({error: err.toString()})
-        })
-})
+app.post('/', function(request, response){
+  var query1 = request.query.param1;
+  var query2 = request.query.param2;
+
+  console.log("Param1: ", query1);
+  console.log("Param2: ", query2);
+  const enrol = require('./enrolUser').enrolUser;
+  try{
+    enrol(query1, query2);
+  }catch(err) {
+    response.sendStatus(500).json({error: err.toString()});
+  };  
+  response.sendStatus(200);
+});
+
+app.listen(port, () => console.log(`Example app listening on port ${port}!`))
