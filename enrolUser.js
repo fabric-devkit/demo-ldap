@@ -1,24 +1,6 @@
 'use strict';
-/*const args = process.argv;
-console.log(args);
-let username = "";
-if(args.length == 3) {
-  username = args[2];
-} else {
-  console.log("Usage: node enrolUser.js <username>");
-  return;
-}
 
-const readline = require('readline-sync');
-let password = readline.question("Enter password for user " + username + ": ", {
-  hideEchoBack: true
-});
-
-enrolUser(username, password);*/
-
-//var exports = module.exports = {};
-
-module.exports.enrolUser = function(username, password) {
+async function enrolUser(username, password) {
   var fabricClient = require('./config/FabricClient');
   var FabricCAClient = require('fabric-ca-client');
   var connection = fabricClient;
@@ -58,8 +40,8 @@ module.exports.enrolUser = function(username, password) {
       console.log('Assigned the admin user to the fabric client ::' + newUser.toString());
   }).catch((err) => {
       console.error('Failed to enroll user: ' + err);
-      throw new Error('Failed to enrol user');
+      throw new Error('Failed to enroll user');
   });
 }
 
-//module.exports = {enrolUser: 'enrolUser'};
+module.exports = {enrolUser: enrolUser};
