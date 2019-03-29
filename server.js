@@ -12,12 +12,14 @@ app.post('/', async function(request, response){
   console.log("Param1: ", query1);
   console.log("Param2: ", query2);
   const enrol = require('./enrolUser').enrolUser;
-  //try{
-    enrol(query1, query2).catch(err => response.sendStatus(500).json({error: err.toString()}));
-  //}catch(err) {
-  //  console.log("in error handler")
-  //  response.sendStatus(500).json({error: err.toString()});
-  //};  
+  try{
+    let abc = await enrol(query1, query2);
+    console.log(abc);
+
+  }catch(err) {
+    console.log("in error handler")
+    response.sendStatus(500).json({error: err.toString()});
+  };  
   response.sendStatus(200);
 });
 

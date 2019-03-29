@@ -40,7 +40,6 @@ async function enrolUser(username, password) {
       console.log('Assigned the admin user to the fabric client ::' + newUser.toString());
   }).catch((err) => {
       console.error('Failed to enroll user: ' + err);
-      throw new Error('Failed to enroll user');
   });
 }
 
