@@ -73,8 +73,7 @@ app.set('view engine', 'handlebars');
 //===============ROUTES=================
 //displays our homepage
 app.get('/', function(req, res){
-  console.log("home: user: ", req.user);
-  res.render('home', {user: req.user});
+  res.render('home', {user: req.session.user});
 });
 
 //displays our signup page
@@ -91,19 +90,24 @@ app.post('/local-reg', passport.authenticate('local-signup', {
 
 //logs user out of site, deleting them from the session, and returns to homepage
 app.get('/logout', function(req, res){
-  var name = req.user.username;
-  console.log("LOGGING OUT " + req.user.username)
+  var name = req.session.user.cn;
+  console.log("LOGGING OUT " + req.session.user.cn)
   req.logout();
+  req.session.user = null;
   res.redirect('/');
   req.session.notice = "You have successfully been logged out " + name + "!";
 });
 
-app.post('/login', passport.authenticate('ldapauth', {
-  session: true,
-  successRedirect: '/',
-  failureRedirect: '/signin'
-  })
-);
+app.post('/login', function(req, res, next) {
+  passport.authenticate('ldapauth', function (err, user, info){
+    if(user){
+      req.session.user = user;
+      res.redirect('/');
+    } else {
+      res.redirect('/signin');
+    }
+  })(req, res, next);
+});
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
