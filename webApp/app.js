@@ -10,23 +10,24 @@ var passport     = require('passport'),
     session = require('express-session'),
     LdapStrategy = require('passport-ldapauth');
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
-var loginRouter = require('./routes/login');
-
 var OPTS = {
+  passReqToCallback: true,
   server: {
     url: 'ldap://localhost:389',
-    bindDN: 'cn=admin',
-    bindCredentials: 'adinpw',
-    searchBase: 'ou=example.org',
-    searchFilter: '(uid={{username}})'
+    bindDN: 'cn=admin,dc=example,dc=org',
+    bindCredentials: 'adminpw',
+    searchBase: 'dc=example,dc=org',
+    searchFilter: '(cn={{username}})'
   }
 };
 
 var app = express();
 
-passport.use(new LdapStrategy(OPTS));
+passport.use(new LdapStrategy(OPTS, function(req, user, done){
+  console.log(user);
+  req.session.user = user;
+  done(null, user);
+}));
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -72,6 +73,7 @@ app.set('view engine', 'handlebars');
 //===============ROUTES=================
 //displays our homepage
 app.get('/', function(req, res){
+  console.log("home: user: ", req.user);
   res.render('home', {user: req.user});
 });
 
@@ -87,35 +89,21 @@ app.post('/local-reg', passport.authenticate('local-signup', {
   })
 );
 
-//sends the request through our local login/signin strategy, and if successful takes user to homepage, otherwise returns then to signin page
-app.post('/login', passport.authenticate('local-signin', {
-  successRedirect: '/',
-  failureRedirect: '/signin'
-  })
-);
-
 //logs user out of site, deleting them from the session, and returns to homepage
 app.get('/logout', function(req, res){
   var name = req.user.username;
-  console.log("LOGGIN OUT " + req.user.username)
+  console.log("LOGGING OUT " + req.user.username)
   req.logout();
   res.redirect('/');
   req.session.notice = "You have successfully been logged out " + name + "!";
 });
 
-/*app.post('/login', function(req,res){
-  var user_name=req.body.user;
-  var password=req.body.password;
-  console.log("User name = "+user_name+", password is "+password);
-  res.end("yes");
-});*/
-/*app.post('/login', passport.authenticate('ldapauth', {session: false}), function(req, res) {
-  res.send({status: 'ok'});
-});*/
-
-/*app.use('/', indexRouter);
-app.use('/users', usersRouter);
-app.use('/login', loginRouter);*/
+app.post('/login', passport.authenticate('ldapauth', {
+  session: true,
+  successRedirect: '/',
+  failureRedirect: '/signin'
+  })
+);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
