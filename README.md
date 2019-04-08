@@ -20,22 +20,23 @@ on your system, run ``teardown.sh``.
 
 ## Usage (CLI)
 To enrol the initial Admin user in the CA, run ``enrolAdmin.sh``.
-To add a new user to the LDAP server, run ``addUser.sh <firstname> <lastname>``. This will create a user with the username ``<firsrname><lastname>``. Enter a password for the user when prompted. You can then enrol this user in the CA using ``enrolUser.sh <username> <password>``.
+To add a new user to the LDAP server, run ``addUser.sh <firstname> <lastname>``. This will create a user with the username ``<firstname><lastname>``. Enter a password for the user when prompted. You can then enrol this user in the CA using ``enrolUser.sh <username> <password>``.
 
 ## Usage (SDK)
 Add new users to the LDAP server using the ``addUser.sh`` script as above.
 To register a new user to the CA, run ``node enrolUser.js <username>``, and enter the password when prompted.
 
-## REST interface **Work in progress**
+## WebSocket server **
+This creates a WebSocket server that listens for messages on port 8081 and interacts with the HLF network via the SDK. At present, only the enrol functionality has been implemented.
 Start with ``node server.js``
-From Postman: ``localhost:3000?param1=username&param2=password``
-TODO: Get this the web UI connected up, get error handling working. Add some interaction with chaincode.
+TODO: Get error handling working. Add some interaction with chaincode.
 
 ## Webapp **Work in progress**
 Intended to provide a user logon interface which will then allow authenticated interaction with the blockchain.
 ``cd webApp
 DEBUG=webApp:* npm start``
-
+At present, the user can log on using an account that has been created using the ``addUser.sh`` followed by one of the ``enrolUser`` scripts.
+The ``I need to create an account`` route enrols a previously created LDAP user into the HLF network.
 
 
 <a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>

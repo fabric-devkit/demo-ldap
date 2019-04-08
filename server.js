@@ -1,29 +1,5 @@
-/*const port = 3001;
-const express = require('express')
-const app = express()
-var bodyParser = require('body-parser')
-//Attach the middleware
-app.use( bodyParser.json() );
-
-app.post('/enrol', async function(request, response){
-  var query1 = request.query.param1;
-  var query2 = request.query.param2;
-
-  console.log("Param1: ", query1);
-  console.log("Param2: ", query2);
-  const enrol = require('./enrolUser').enrolUser;
-  try{
-    let abc = await enrol(query1, query2);
-    console.log(abc);
-
-  }catch(err) {
-    console.log("in error handler")
-    response.sendStatus(500).json({error: err.toString()});
-  };  
-  response.sendStatus(200);
-});
-
-app.listen(port, () => console.log(`Example app listening on port ${port}!`))*/
+/* Server for interacting directly with the HLF SDK. Opens a WebSocket on port 8081 to receive commands from the web app 
+*/
 
 var WebSocketServer = require('websocket').server;
 var http = require('http');
@@ -34,7 +10,7 @@ var server = http.createServer(function(request, response) {
     response.end();
 });
 server.listen(8081, function() {
-    console.log((new Date()) + ' Server is listening on port 8080');
+    console.log((new Date()) + ' Server is listening on port 8081');
 });
  
 wsServer = new WebSocketServer({
