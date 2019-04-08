@@ -1,3 +1,5 @@
+// Run with: DEBUG=webApp:* npm start
+
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
@@ -82,10 +84,29 @@ app.get('/signin', function(req, res){
 });
 
 //sends the request through our local signup strategy, and if successful takes user to homepage, otherwise returns then to signin page
-app.post('/local-reg', passport.authenticate('local-signup', {
+app.post('/local-reg', /*passport.authenticate('local-signup', {
   successRedirect: '/',
   failureRedirect: '/signin'
-  })
+  }*/function(req, res) {
+    console.log('connecting to websocket');
+    var WebSocketClient = require('websocket').client;
+    var client = new WebSocketClient();
+    client.on('connect', function(connection) {
+      console.log('WebSocket client connected');
+      connection.on('message', function(message) {
+        console.log('Recieved message: ', message);
+      });
+      //console.log(req);
+      console.log(req.body);
+      const message = {messageType: 'register',
+                      data: req.body};
+      connection.send(JSON.stringify(message));
+    });
+
+    client.connect('ws://localhost:8081/', 'ws-protocol');
+    
+    res.render('home');
+  }
 );
 
 //logs user out of site, deleting them from the session, and returns to homepage
