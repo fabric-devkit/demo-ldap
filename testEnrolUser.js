@@ -1,3 +1,12 @@
+async function main(username, password){
+  try {
+    let ret = await enrol(username, password);
+    console.log("returned ", ret);
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 const enrol = require('./enrolUser').enrolUser;
 
 const args = process.argv;
@@ -15,4 +24,6 @@ let password = readline.question("Enter password for user " + username + ": ", {
   hideEchoBack: true
 });
 
-enrol(username, password);
+main()
+  //.then(v => console.log(v))
+  .catch(err => console.log(err))

@@ -95,6 +95,7 @@ app.post('/local-reg', /*passport.authenticate('local-signup', {
       console.log('WebSocket client connected');
       connection.on('message', function(message) {
         console.log('Recieved message: ', message);
+        // TODO: handle success/failure of registration here
       });
       //console.log(req);
       console.log(req.body);
