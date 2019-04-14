@@ -99,6 +99,13 @@ app.post('/local-reg', /*passport.authenticate('local-signup', {
         const messageType = messageJson.message;
         if(messageType === 'enrolStatus') {
           console.log('received enrolStatus: ', messageJson.status);
+          if(messageJson.status === 'ok') {
+            res.render('signin', {message: "User enrolled successfully"})
+          }
+          else {
+            res.render('signin', {message: "Failed to enrol user with Hyperledger Fabric network. Please ensure that the \
+            username and password are valid on the LDAP server"})
+          }
         } else {
           console.log('received unexpected message type: ', messageType);
         }
@@ -113,7 +120,7 @@ app.post('/local-reg', /*passport.authenticate('local-signup', {
 
     client.connect('ws://localhost:8081/', 'ws-protocol');
     
-    res.render('home');
+    //res.render('home');
   }
 );
 

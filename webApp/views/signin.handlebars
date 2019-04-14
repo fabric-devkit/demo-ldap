@@ -10,7 +10,9 @@
     <a data-toggle="collapse" href="#local-sign-in" class="btn btn-default btn-md" role="button">I already have an account</a>
     <a data-toggle="collapse" href="#local-reg" class="btn btn-default btn-md" role="button">I need to make an account</a>
   </div>
-
+  {{#if message}}
+    {{message}}
+  {{/if}}
   <form id="local-sign-in" class="collapse" action="/login" method="post">
     <div>
         <p></p>
@@ -29,11 +31,11 @@
   <form id="local-reg" class="collapse" action="/local-reg" method="post">
     <div>
         <p></p>
-        <label>New Username:</label>
+        <label>LDAP Username:</label>
         <input type="text" name="username"/>
     </div>
     <div>
-        <label>New Password:</label>
+        <label>LDAP Password:</label>
         <input type="password" name="password"/>
     </div>
     <div>
