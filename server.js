@@ -48,14 +48,14 @@ wsServer.on('request', function(request) {
               console.log('registering: ', username, ', ', password);
               const enrol = require('./enrolUser').enrolUser;
               try{
-                let status = await enrol(username, password);
-                console.log("enrol finished: ", status);
-                if(status === 'ok'){
-                  // TODO: make this a proper JSON message structure
-                  connection.sendUTF('ok');
-                } else {
-                  connection.sendUTF('fail');
+                let enrolStatus = await enrol(username, password);
+                console.log("enrol finished: ", enrolStatus);
+                const reply = {
+                  message: 'enrolStatus',
+                  status: enrolStatus
                 }
+                connection.sendUTF(JSON.stringify(reply));
+                
 
               } catch(err){
                 console.log('in error handler');

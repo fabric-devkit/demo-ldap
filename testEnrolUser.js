@@ -25,5 +25,4 @@ let password = readline.question("Enter password for user " + username + ": ", {
 });
 
 main()
-  //.then(v => console.log(v))
   .catch(err => console.log(err))

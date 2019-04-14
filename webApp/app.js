@@ -94,10 +94,17 @@ app.post('/local-reg', /*passport.authenticate('local-signup', {
     client.on('connect', function(connection) {
       console.log('WebSocket client connected');
       connection.on('message', function(message) {
-        console.log('Recieved message: ', message);
+        console.log('Recieved message: ', message.utf8Data);
+        messageJson = JSON.parse(message.utf8Data);
+        const messageType = messageJson.message;
+        if(messageType === 'enrolStatus') {
+          console.log('received enrolStatus: ', messageJson.status);
+        } else {
+          console.log('received unexpected message type: ', messageType);
+        }
         // TODO: handle success/failure of registration here
       });
-      //console.log(req);
+
       console.log(req.body);
       const message = {messageType: 'register',
                       data: req.body};
