@@ -9,6 +9,19 @@ networks:
   basic:
 
 services:
+  # LDAP container. See https://github.com/osixia/docker-openldap
+  ldap.example.com:
+    image: osixia/openldap:1.2.2
+    container_name: ldap-server
+    ports:
+     - "389:389"
+     - "689:689"
+    environment:
+      - LDAP_ORGANISATION=example.com
+      - LDAP_ADMIN_PASSWORD=adminpw
+    volumes:
+      - /tmp:/tmp
+
   ca.example.com:
     image: hyperledger/fabric-ca:1.4.0
     container_name: fabric-ca-server

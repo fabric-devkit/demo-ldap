@@ -11,19 +11,11 @@ set -ev
 # don't rewrite paths for Windows Git Bash users
 export MSYS_NO_PATHCONV=1
 
+# Take down any running containers, including the LDAP server
 docker-compose -f docker-compose.yml down
-# Separately take down the LDAP container 
-docker stop my-openldap-container || true && docker rm my-openldap-container || true
-
-######################################################################
-# Start the example LDAP server to authenticate against, specifying a default
-# admin password. See https://github.com/osixia/docker-openldap
-######################################################################
-docker run -p 389:389 -p 689:689 -v /tmp:/tmp --name my-openldap-container --env LDAP_ORGANISATION="My Company" --env LDAP_DOMAIN="example.org" \
---env LDAP_ADMIN_PASSWORD="adminpw" --detach osixia/openldap:1.2.2
 
 # Start the HLF Docker containers
-docker-compose -f docker-compose.yml up -d ca.example.com orderer.example.com peer0.org1.example.com couchdb cli
+docker-compose -f docker-compose.yml up -d ldap.example.com ca.example.com orderer.example.com peer0.org1.example.com couchdb cli
 
 # wait for Hyperledger Fabric to start
 # incase of errors when running later commands, issue export FABRIC_START_TIMEOUT=<larger number>
