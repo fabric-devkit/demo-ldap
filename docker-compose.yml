@@ -9,7 +9,9 @@ networks:
   basic:
 
 services:
-  # LDAP container. See https://github.com/osixia/docker-openldap
+  # An example LDAP server to authenticate against. In reality this would be
+  # the organisation's production LDAP server
+  #See https://github.com/osixia/docker-openldap
   ldap.example.com:
     image: osixia/openldap:1.2.2
     container_name: ldap-server

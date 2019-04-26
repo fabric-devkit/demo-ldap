@@ -29,7 +29,7 @@ To register a new user to the CA, run ``node enrolUser.js <username>``, and ente
 ## WebSocket server **
 This creates a WebSocket server that listens for messages on port 8081 and interacts with the HLF network via the SDK. At present, only the enrol functionality has been implemented.
 Start with ``node server.js``
-TODO: Get error handling working. Add some interaction with chaincode.
+TODO: Finish Dockerization and add to main start script. Add some interaction with chaincode.
 
 ## Webapp **Work in progress**
 Intended to provide a user logon interface which will then allow authenticated interaction with the blockchain.
@@ -37,7 +37,7 @@ Intended to provide a user logon interface which will then allow authenticated i
 DEBUG=webApp:* npm start``
 At present, the user can log on using an account that has been created using the ``addUser.sh`` followed by one of the ``enrolUser`` scripts.
 The ``I need to create an account`` route enrols a previously created LDAP user into the HLF network.
-
+TODO: Dockerize this
 
 <a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>
 

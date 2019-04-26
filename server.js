@@ -47,19 +47,18 @@ wsServer.on('request', function(request) {
               const password = messageJson.data.password;
               console.log('registering: ', username, ', ', password);
               const enrol = require('./enrolUser').enrolUser;
+              let enrolStatus = "fail";
               try{
-                let enrolStatus = await enrol(username, password);
+                enrolStatus = await enrol(username, password);
                 console.log("enrol finished: ", enrolStatus);
-                const reply = {
+              } catch(err){
+                console.log('Exception from enrol: ', err);
+              }
+              const reply = {
                   message: 'enrolStatus',
                   status: enrolStatus
-                }
-                connection.sendUTF(JSON.stringify(reply));
-                
-
-              } catch(err){
-                console.log('in error handler');
               }
+              connection.sendUTF(JSON.stringify(reply));              
             }
             //connection.sendUTF(message.utf8Data);
         }
