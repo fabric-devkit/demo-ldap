@@ -1,11 +1,13 @@
 # Dockerfile for web app to talk to SDK server
 FROM amd64/ubuntu:latest
 RUN apt-get update
-RUN apt-get install npm express
+RUN apt-get install nodejs npm -y
 
-COPY webApp /server
+RUN mkdir -p /server/webApp
+COPY webApp /server/webApp/
+RUN ls -lar /server/webApp/
 
 EXPOSE 3000
 
-WORKDIR /server/webApp
-CMD ["DEBUG=webApp:* npm start"]
+WORKDIR /server/webApp/
+CMD ["npm", "start"]
