@@ -84,10 +84,7 @@ app.get('/signin', function(req, res){
 });
 
 //sends the request through our local signup strategy, and if successful takes user to homepage, otherwise returns then to signin page
-app.post('/local-reg', /*passport.authenticate('local-signup', {
-  successRedirect: '/',
-  failureRedirect: '/signin'
-  }*/function(req, res) {
+app.post('/local-reg', function(req, res) {
     console.log('connecting to websocket');
     var WebSocketClient = require('websocket').client;
     var client = new WebSocketClient();
@@ -123,6 +120,13 @@ app.post('/local-reg', /*passport.authenticate('local-signup', {
     //res.render('home');
   }
 );
+
+app.post('/upload-file', function(req, res) {
+  console.log(req);
+  // TODO: refactor WS section above so that we connect when the app is initialised and only do this once.
+  //TODO: open the file, pass the content over the websocket, get the result.
+  res.render('home');
+});
 
 //logs user out of site, deleting them from the session, and returns to homepage
 app.get('/logout', function(req, res){
