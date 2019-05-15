@@ -6,6 +6,7 @@ RUN npm install websocket
 
 RUN mkdir -p /server
 COPY server.js /server
+COPY ipfs.js /server
 
 EXPOSE 8081
 
