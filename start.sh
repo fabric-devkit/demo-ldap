@@ -25,7 +25,7 @@ fi
 docker build -f docker/server/Dockerfile -t hlf-ldap-server .
 docker build -f docker/webApp/Dockerfile -t hlf-webapp .
 # .. and run them
-docker run -d --name hlf-sdk-server hlf-ldap-server:latest
+docker run -d -p 8081:8081 --name hlf-sdk-server hlf-ldap-server:latest
 docker run -d -p 3000:3000 --name hlf-webapp-server hlf-webapp:latest
 
 # Start the HLF Docker containers

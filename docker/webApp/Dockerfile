@@ -5,7 +5,8 @@ RUN apt-get install nodejs npm -y
 
 RUN mkdir -p /server/webApp
 COPY webApp /server/webApp/
-RUN ls -lar /server/webApp/
+#RUN ls -lar /server/webApp/
+RUN cd server/webApp && npm install
 
 EXPOSE 3000
 

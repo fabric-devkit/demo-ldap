@@ -91,7 +91,7 @@ app.post('/local-reg', function(req, res) {
     client.on('connect', function(connection) {
       console.log('WebSocket client connected');
       connection.on('message', function(message) {
-        console.log('Recieved message: ', message.utf8Data);
+        console.log('Received message: ', message.utf8Data);
         messageJson = JSON.parse(message.utf8Data);
         const messageType = messageJson.message;
         if(messageType === 'enrolStatus') {
