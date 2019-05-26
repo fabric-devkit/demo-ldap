@@ -26,7 +26,7 @@ fi
 docker build -f docker/webApp/Dockerfile -t hlf-webapp .
 # .. and run them
 #docker run -d --name hlf-sdk-server hlf-ldap-server:latest
-docker run -d -p 3000:3000 -p 8081:8081 --name hlf-webapp-server hlf-webapp:latest
+docker run -d -p 3000:3000 --name hlf-webapp-server hlf-webapp:latest
 
 # Start the HLF Docker containers
 docker-compose -f docker-compose.yml up -d ldap.example.com ca.example.com orderer.example.com peer0.org1.example.com couchdb cli

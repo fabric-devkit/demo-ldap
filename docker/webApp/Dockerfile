@@ -12,6 +12,7 @@ RUN npm install
 # install the sdk server
 RUN mkdir /server/sdk
 COPY server.js /server/sdk
+COPY enrolUser.js /server/sdk
 COPY crypto-config /server/sdk
 COPY package.json /server/sdk
 COPY package-lock.json /server/sdk

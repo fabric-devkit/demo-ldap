@@ -26,7 +26,7 @@ var OPTS = {
 var app = express();
 
 passport.use(new LdapStrategy(OPTS, function(req, user, done){
-  console.log(user);
+  console.log("LdapStrategy: ", user);
   req.session.user = user;
   done(null, user);
 }));
@@ -135,6 +135,7 @@ app.get('/logout', function(req, res){
 });
 
 app.post('/login', function(req, res, next) {
+  console.log("Attempting passport auth: ", req);
   passport.authenticate('ldapauth', function (err, user, info){
     if(user){
       req.session.user = user;
