@@ -5,18 +5,19 @@ RUN apt-get install nodejs npm -y
 
 # install the web app
 RUN mkdir -p /server/webApp
-COPY webApp /server/webApp/
 WORKDIR /server/webApp
+COPY webApp /server/webApp/
 RUN npm install
 
 # install the sdk server
 RUN mkdir /server/sdk
+WORKDIR /server/sdk
 COPY server.js /server/sdk
 COPY enrolUser.js /server/sdk
 COPY crypto-config /server/sdk
 COPY package.json /server/sdk
 COPY package-lock.json /server/sdk
-WORKDIR /server/sdk
+
 RUN  npm install
 EXPOSE 3000
 
