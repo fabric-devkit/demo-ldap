@@ -9,17 +9,19 @@ networks:
   basic:
 
 services:
-  server.example.com:
+  webapp.example.com:
+    container_name: webApp
     build: 
       context: .
       dockerfile: docker/webApp/Dockerfile
+      
     networks:
     - basic
     ports:
     - "3000:3000"
-    volumes:
-     - ./:/app
-    working_dir: /app
+    #volumes:
+    # - ./:/app
+    #working_dir: /app
 
   # An example LDAP server to authenticate against. In reality this would be
   # the organisation's production LDAP server
@@ -47,12 +49,14 @@ services:
       - FABRIC_CA_HOME=/etc/hyperledger/fabric-ca-server
       - FABRIC_CA_SERVER_CA_NAME=ca.example.com
       - FABRIC_CA_SERVER_CA_CERTFILE=/etc/hyperledger/fabric-ca-server-config/ca.org1.example.com-cert.pem
-      - FABRIC_CA_SERVER_CA_KEYFILE=/etc/hyperledger/fabric-ca-server-config/4239aa0dcd76daeeb8ba0cda701851d14504d31aad1b2ddddbac6a57365e497c_sk
+      - FABRIC_CA_SERVER_CA_KEYFILE=/etc/hyperledger/fabric-ca-server-config/7560d909eade76e70ce81588bda29d527086c8ae00a0536fd3a39e5cb49ba8d8_sk
     volumes:
       - ./fabric-ca-server:/etc/hyperledger/fabric-ca-server
       - ./crypto-config/peerOrganizations/org1.example.com/ca/:/etc/hyperledger/fabric-ca-server-config
     container_name: ca.example.com
     command: sh -c 'fabric-ca-server start'
+    #networks: 
+    # - basic
     network_mode: host
 
   orderer.example.com:

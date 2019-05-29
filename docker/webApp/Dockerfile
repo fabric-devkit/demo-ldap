@@ -17,6 +17,8 @@ COPY enrolUser.js /server/sdk
 COPY crypto-config /server/sdk
 COPY package.json /server/sdk
 COPY package-lock.json /server/sdk
+ADD config /server/sdk/config
+ADD crypto-config /server/sdk/crypto-config
 
 RUN  npm install
 EXPOSE 3000
