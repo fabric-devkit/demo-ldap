@@ -15,10 +15,11 @@ export MSYS_NO_PATHCONV=1
 docker-compose -f docker-compose.yml down
 
 # Build our SDK server and webApp docker images..
-docker build -f docker/webApp/Dockerfile .
+#docker build -f docker/webApp/Dockerfile .
 
 # Start the HLF Docker containers
-docker-compose -f docker-compose.yml up -d webapp.example.com ldap.example.com ca.example.com orderer.example.com peer0.org1.example.com couchdb cli
+# TODO: reinstate webapp.example.com
+docker-compose -f docker-compose.yml up -d  ldap.example.com ca.example.com orderer.example.com peer0.org1.example.com couchdb cli
 
 # wait for Hyperledger Fabric to start
 # incase of errors when running later commands, issue export FABRIC_START_TIMEOUT=<larger number>
