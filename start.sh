@@ -13,13 +13,23 @@ export MSYS_NO_PATHCONV=1
 
 # Take down any running containers, including the LDAP server
 docker-compose -f docker-compose.yml down
+# Take down any of our SDK or webApp servers
+#if docker ps | grep hlf-sdk-server; then
+#   docker stop hlf-sdk-server && docker rm -f hlf-sdk-server
+#fi
+#if docker ps | grep hlf-webapp-server; then
+#   docker stop hlf-webapp-server && docker rm -f hlf-webapp-server
+#fi
 
 # Build our SDK server and webApp docker images..
-#docker build -f docker/webApp/Dockerfile .
+#docker build -f docker/server/Dockerfile -t hlf-ldap-server .
+#docker build -f docker/webApp/Dockerfile -t hlf-webapp .
+# .. and run them
+#docker run -d -p 8081:8081 --name hlf-sdk-server hlf-ldap-server:latest
+#docker run -d -p 3000:3000 --name hlf-webapp-server hlf-webapp:latest
 
 # Start the HLF Docker containers
-# TODO: reinstate webapp.example.com
-docker-compose -f docker-compose.yml up -d  ldap.example.com ca.example.com orderer.example.com peer0.org1.example.com couchdb cli
+docker-compose -f docker-compose.yml up -d webapp.example.com ldap.example.com ca.example.com orderer.example.com peer0.org1.example.com couchdb cli
 
 # wait for Hyperledger Fabric to start
 # incase of errors when running later commands, issue export FABRIC_START_TIMEOUT=<larger number>

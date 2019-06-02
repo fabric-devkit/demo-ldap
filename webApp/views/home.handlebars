@@ -11,6 +11,12 @@
     <div class="panel-body">
       <p>Username: {{user.cn}}</p>
     </div>
+    <form id="local-reg" class="collapse" action="/upload-file" method="post">
+    <h2>File Upload</h2>
+    Recipient: <input id="upload-desination" type="text"/>
+    File: <input id="upload-file" type="file"/>
+    <input type="submit" class="btn btn-primary btn-sm" value="Upload"/>
+    </form>
   </div>
 
 {{else}}

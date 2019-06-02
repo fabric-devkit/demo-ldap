@@ -59,7 +59,17 @@ wsServer.on('request', function(request) {
                   status: enrolStatus
               }
               connection.sendUTF(JSON.stringify(reply));              
+            } else if(messageJson.messageType === 'commitFile') {
+              const fileContent = messageJson.data.fileContent;
+              const writeToIPFS = require('./ipfs').writeToIPFS;
+              const commitHash = await writeToIPFS(fileContent);
+              const reply = {
+                message: 'commitStatus',
+                hash: commitHash
+              }
+              connection.sendUTF(JSON.stringify(reply));
             }
+            
             //connection.sendUTF(message.utf8Data);
         }
         else if (message.type === 'binary') {
