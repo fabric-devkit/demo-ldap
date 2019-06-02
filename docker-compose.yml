@@ -30,7 +30,7 @@ services:
      - "389:389"
      - "689:689"
     environment:
-      - LDAP_ORGANISATION=example.com
+      - LDAP_ORGANISATION=example.org
       - LDAP_ADMIN_PASSWORD=adminpw
     volumes:
       - /tmp:/tmp
@@ -52,7 +52,9 @@ services:
       - ./crypto-config/peerOrganizations/org1.example.com/ca/:/etc/hyperledger/fabric-ca-server-config
     container_name: ca.example.com
     command: sh -c 'fabric-ca-server start'
-    network_mode: host
+    #network_mode: host
+    networks:
+     - basic
 
   orderer.example.com:
     container_name: orderer.example.com

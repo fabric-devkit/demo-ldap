@@ -15,7 +15,7 @@ var passport     = require('passport'),
 var OPTS = {
   passReqToCallback: true,
   server: {
-    url: 'ldap://localhost:389',
+    url: 'ldap://ldap-server:389',
     bindDN: 'cn=admin,dc=example,dc=org',
     bindCredentials: 'adminpw',
     searchBase: 'dc=example,dc=org',
