@@ -25,11 +25,11 @@ var OPTS = {
 
 var app = express();
 
-passport.use(new LdapStrategy(OPTS, function(req, user, done){
+passport.use(new LdapStrategy(OPTS));/*, function(req, user, done){
   console.log("LdapStrategy: ", user);
   req.session.user = user;
   done(null, user);
-}));
+}));*/
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
