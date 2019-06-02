@@ -60,7 +60,7 @@ peers:
       path: crypto-config/peerOrganizations/org1.example.com/peers/peer1.org1.example.com/msp/tlscacerts/tlsca.org1.example.com-cert.pem
 certificateAuthorities:
   ca.org1.example.com:
-    url: http://localhost:7054
+    url: http://ca.example.com:7054
     httpOptions:
       verify: false
     tlsCACerts:

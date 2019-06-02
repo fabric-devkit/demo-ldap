@@ -29,5 +29,5 @@ peers:
         url: grpc://localhost:7051
 certificateAuthorities:
     ca.example.com:
-        url: http://localhost:7054
+        url: http://ca.example.com:7054
         caName: ca.example.com

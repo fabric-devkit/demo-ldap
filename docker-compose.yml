@@ -9,6 +9,17 @@ networks:
   basic:
 
 services:
+  webapp.example.com:
+    container_name: webApp
+    build: 
+      context: .
+      dockerfile: docker/webApp/Dockerfile
+    environment:
+     - FABRIC_CA_CLIENT_URL=https://ca.example.com:7054  
+    networks:
+    - basic
+    ports:
+    - "3000:3000"
   # An example LDAP server to authenticate against. In reality this would be
   # the organisation's production LDAP server
   #See https://github.com/osixia/docker-openldap
@@ -23,6 +34,8 @@ services:
       - LDAP_ADMIN_PASSWORD=adminpw
     volumes:
       - /tmp:/tmp
+    networks:
+      - basic
 
   ca.example.com:
     image: hyperledger/fabric-ca:1.4.0
