@@ -15,5 +15,5 @@ objectClass: person
 objectClass: top
 EOF
 
-docker exec my-openldap-container ldapadd -x -w "adminpw" -D "cn=admin,dc=example,dc=org" -f /tmp/newUser.ldif
-docker exec -it my-openldap-container ldappasswd -x -w "adminpw" -D "cn=admin,dc=example,dc=org" -S "cn=$1$2,dc=example,dc=org"
+docker exec ldap-server ldapadd -x -w "adminpw" -D "cn=admin,dc=example,dc=org" -f /tmp/newUser.ldif
+docker exec -it ldap-server ldappasswd -x -w "adminpw" -D "cn=admin,dc=example,dc=org" -S "cn=$1$2,dc=example,dc=org"
