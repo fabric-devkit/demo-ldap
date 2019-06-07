@@ -13,10 +13,10 @@ Note that this basic configuration uses pre-generated certificates and
 key material, and also has predefined transactions to initialize a 
 channel named "mychannel".
 
+To (re)build the webApp docker image, run ``docker-compose build``.
 To start the network, run ``start.sh``.
 To stop it, run ``stop.sh``
 To completely remove the network on your system, run ``teardown.sh``.
-To rebuild the webApp docker image, run ``docker-compose build``.
 
 ## Usage (CLI)
 To enrol the initial Admin user in the CA, run ``enrolAdmin.sh``.
@@ -28,8 +28,6 @@ To register a new user to the CA, Click on "Sign in", then "I need to create an 
 
 ## WebSocket server **
 This creates a WebSocket server that listens for messages on port 8081 and interacts with the HLF network via the SDK. At present, only the enrol functionality has been implemented.
-
-TODO: Move into its own Docker container. Add some interaction with chaincode.
 
 ## Webapp **Work in progress**
 Intended to provide a user logon interface which will then allow authenticated interaction with the blockchain.

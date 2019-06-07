@@ -15,7 +15,7 @@ export MSYS_NO_PATHCONV=1
 docker-compose -f docker-compose.yml down
 
 # Start the HLF Docker containers
-docker-compose -f docker-compose.yml up -d webapp.example.com ldap.example.com ca.example.com orderer.example.com peer0.org1.example.com couchdb cli
+docker-compose -f docker-compose.yml up -d 
 
 # wait for Hyperledger Fabric to start
 # incase of errors when running later commands, issue export FABRIC_START_TIMEOUT=<larger number>

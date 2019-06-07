@@ -10,20 +10,21 @@ COPY webApp /server/webApp/
 RUN npm install
 
 # install the sdk server
-RUN mkdir /server/sdk
-WORKDIR /server/sdk
-COPY server.js /server/sdk
-COPY enrolUser.js /server/sdk
-COPY crypto-config /server/sdk
-COPY package.json /server/sdk
-COPY package-lock.json /server/sdk
-ADD config /server/sdk/config
-ADD crypto-config /server/sdk/crypto-config
+#RUN mkdir /server/sdk
+#WORKDIR /server/sdk
+#COPY server.js /server/sdk
+#COPY enrolUser.js /server/sdk
+#COPY crypto-config /server/sdk
+#COPY package.json /server/sdk
+#COPY package-lock.json /server/sdk
+#ADD config /server/sdk/config
+#ADD crypto-config /server/sdk/crypto-config
+#RUN  npm install
 
-RUN  npm install
 EXPOSE 3000
 
-COPY runserver.sh /server
+#COPY runserver.sh /server
 
-WORKDIR /server
-CMD ["bash", "runserver.sh"]
+WORKDIR /server/webApp
+#CMD ["bash", "runserver.sh"]
+CMD ["npm", "start"]

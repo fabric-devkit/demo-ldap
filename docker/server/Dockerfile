@@ -1,13 +1,21 @@
 # DockerfilHLF SDK server
 FROM amd64/ubuntu:latest
 RUN apt-get update
-RUN apt-get install nodejs npm -y
-RUN npm install websocket
+RUN apt-get install nodejs npm git -y
 
-RUN mkdir -p /server
-COPY server.js /server
-COPY ipfs.js /server
+# install the sdk server
+RUN mkdir -p /server/sdk
+WORKDIR /server/sdk
+COPY server.js /server/sdk
+COPY enrolUser.js /server/sdk
+COPY crypto-config /server/sdk
+COPY package.json /server/sdk
+COPY package-lock.json /server/sdk
+ADD config /server/sdk/config
+ADD crypto-config /server/sdk/crypto-config
+RUN  npm install
 
 EXPOSE 8081
 
-CMD ["node", "/server/server.js"]
+WORKDIR /server/sdk
+CMD ["node", "server.js"]

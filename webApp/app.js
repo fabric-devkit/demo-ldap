@@ -106,7 +106,6 @@ app.post('/local-reg', function(req, res) {
         } else {
           console.log('received unexpected message type: ', messageType);
         }
-        // TODO: handle success/failure of registration here
       });
 
       console.log(req.body);
@@ -115,7 +114,7 @@ app.post('/local-reg', function(req, res) {
       connection.send(JSON.stringify(message));
     });
 
-    client.connect('ws://localhost:8081/', 'ws-protocol');
+    client.connect('ws://sdk-server:8081/', 'ws-protocol');
     
     //res.render('home');
   }

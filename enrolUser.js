@@ -40,7 +40,6 @@ async function enrolUser(username, password) {
     }catch(err){
       console.error('Failed to enroll user: ' + err);
       return("fail");
-      // TODO: pass success or failure back to caller
   };
 }
 
