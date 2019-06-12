@@ -75,7 +75,36 @@ app.set('view engine', 'handlebars');
 //===============ROUTES=================
 //displays our homepage
 app.get('/', function(req, res){
-  res.render('home', {user: req.session.user});
+  let userEnrolled = false;
+  console.log('connecting to websocket');
+    var WebSocketClient = require('websocket').client;
+    var client = new WebSocketClient();
+    client.on('connect', function(connection) {
+      console.log('WebSocket client connected');
+      connection.on('message', function(message) {
+        console.log('Received message: ', message.utf8Data);
+        messageJson = JSON.parse(message.utf8Data);
+        const messageType = messageJson.message;
+        if(messageType === 'checkEnrolStatus') {
+          // TODO: this doesn't update the value shown in the handlebars file
+          // as it would from an Ember controller - fix
+          userEnrolled = messageJson.status;
+        } else {
+          console.log('received unexpected message type: ', messageType);
+        }
+      });
+
+      // Query if the user has been enrolled with the CA
+      if(req.session.user) {
+        const message = {messageType: 'queryEnrolStatus',
+                      data: req.session.user.cn};
+        connection.send(JSON.stringify(message));
+      }
+      
+    });
+
+    client.connect('ws://sdk-server:8081/', 'ws-protocol');
+  res.render('home', {user: req.session.user, userEnrolled: userEnrolled});
 });
 
 //displays our signup page

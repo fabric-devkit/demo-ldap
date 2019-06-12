@@ -59,6 +59,15 @@ wsServer.on('request', function(request) {
                   status: enrolStatus
               }
               connection.sendUTF(JSON.stringify(reply));              
+            } else if(messageJson.messageType === 'queryEnrolStatus') {
+              const username = messageJson.data;
+              const queryEnrol = require('./enrolUser').getUserEnrolmentStatus;
+              const enrolStatus = await queryEnrol(username);
+              const reply = {
+                message: 'checkEnrolStatus',
+                status: enrolStatus
+              }
+              connection.sendUTF(JSON.stringify(reply));  
             } else if(messageJson.messageType === 'commitFile') {
               const fileContent = messageJson.data.fileContent;
               const writeToIPFS = require('./ipfs').writeToIPFS;
