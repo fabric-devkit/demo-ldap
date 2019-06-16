@@ -8,6 +8,7 @@ async function getUserEnrolmentStatus(username) {
   await connection.initCredentialStores();
   fabricCAClient = connection.getCertificateAuthority();
   let user = await connection.getUserContext(username, true);
+  console.log(user);
   if(user){
     return true;
   } else {

@@ -75,7 +75,15 @@ app.set('view engine', 'handlebars');
 //===============ROUTES=================
 //displays our homepage
 app.get('/', function(req, res){
+  
+  let username = undefined;
   let userEnrolled = false;
+  if(req.session.user) {
+    username = req.session.user.cn;
+    //getEnrolStatus(username, res);
+    //userEnrolled = req.session.user.enrolStatus;
+  
+
   console.log('connecting to websocket');
     var WebSocketClient = require('websocket').client;
     var client = new WebSocketClient();
@@ -86,26 +94,39 @@ app.get('/', function(req, res){
         messageJson = JSON.parse(message.utf8Data);
         const messageType = messageJson.message;
         if(messageType === 'checkEnrolStatus') {
-          // TODO: this doesn't update the value shown in the handlebars file
-          // as it would from an Ember controller - fix
+          console.log("set userEnrolled to ", messageJson.status);
           userEnrolled = messageJson.status;
+          res.render('home', {user: username, userEnrolled: userEnrolled});
         } else {
           console.log('received unexpected message type: ', messageType);
         }
       });
 
       // Query if the user has been enrolled with the CA
-      if(req.session.user) {
-        const message = {messageType: 'queryEnrolStatus',
-                      data: req.session.user.cn};
-        connection.send(JSON.stringify(message));
-      }
+      const message = {messageType: 'queryEnrolStatus',
+                    data: username};
+      connection.send(JSON.stringify(message));
+      
       
     });
 
-    client.connect('ws://sdk-server:8081/', 'ws-protocol');
-  res.render('home', {user: req.session.user, userEnrolled: userEnrolled});
+  client.connect('ws://localhost:8081/', 'ws-protocol');
+  }
+  else{
+    res.render('home', {user: username, userEnrolled: userEnrolled});
+  }
+  //res.render('home', {user: username, userEnrolled: userEnrolled});
 });
+
+/*app.get('/queryEnrollmentStatus', function(req, res){
+  //console.log(req.body);
+  console.log("got queryEnrollmentStatus")
+  if(req.session.user) {
+    username = req.session.user.cn;
+  }
+  console.log("rendering home with ", username, ", ", userEnrolled);
+  res.render('home', {user: username, userEnrolled: userEnrolled});
+});*/
 
 //displays our signup page
 app.get('/signin', function(req, res){
@@ -137,13 +158,13 @@ app.post('/local-reg', function(req, res) {
         }
       });
 
-      console.log(req.body);
+      //console.log(req.body);
       const message = {messageType: 'register',
                       data: req.body};
       connection.send(JSON.stringify(message));
     });
 
-    client.connect('ws://sdk-server:8081/', 'ws-protocol');
+    client.connect('ws://localhost:8081/', 'ws-protocol');
     
     //res.render('home');
   }
@@ -166,11 +187,16 @@ app.get('/logout', function(req, res){
   req.session.notice = "You have successfully been logged out " + name + "!";
 });
 
-app.post('/login', function(req, res, next) {
+app.post('/login', async function(req, res, next) {
   console.log("Attempting passport auth: ", req);
-  passport.authenticate('ldapauth', function (err, user, info){
+  passport.authenticate('ldapauth', async function (err, user, info){
     if(user){
+      console.log("successfully authenticated user:", user);
+      const queryEnrol = require('../sdk/enrolUser').getUserEnrolmentStatus;
+      const enrolStatus = await queryEnrol(user.cn);
+      console.log("got enrolment status = ", enrolStatus);
       req.session.user = user;
+      req.session.user.enrolStatus = enrolStatus;
       res.redirect('/');
     } else {
       res.redirect('/signin');
