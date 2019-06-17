@@ -8,7 +8,6 @@ async function getUserEnrolmentStatus(username) {
   await connection.initCredentialStores();
   fabricCAClient = connection.getCertificateAuthority();
   let user = await connection.getUserContext(username, true);
-  console.log(user);
   if(user){
     return true;
   } else {
@@ -39,7 +38,7 @@ async function enrolUser(username, password) {
             { name: "hf.Registrar.Attributes" }
         ]*/
       });
-      console.log(enrollment);
+
       console.log('Successfully enrolled user "' + username + '"');
       let enrolledUser = await connection.createUser(
           {username: username,

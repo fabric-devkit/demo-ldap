@@ -25,11 +25,7 @@ var OPTS = {
 
 var app = express();
 
-passport.use(new LdapStrategy(OPTS));/*, function(req, user, done){
-  console.log("LdapStrategy: ", user);
-  req.session.user = user;
-  done(null, user);
-}));*/
+passport.use(new LdapStrategy(OPTS));
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -80,21 +76,14 @@ app.get('/', function(req, res){
   let userEnrolled = false;
   if(req.session.user) {
     username = req.session.user.cn;
-    //getEnrolStatus(username, res);
-    //userEnrolled = req.session.user.enrolStatus;
-  
 
-  console.log('connecting to websocket');
     var WebSocketClient = require('websocket').client;
     var client = new WebSocketClient();
     client.on('connect', function(connection) {
-      console.log('WebSocket client connected');
       connection.on('message', function(message) {
-        console.log('Received message: ', message.utf8Data);
         messageJson = JSON.parse(message.utf8Data);
         const messageType = messageJson.message;
         if(messageType === 'checkEnrolStatus') {
-          console.log("set userEnrolled to ", messageJson.status);
           userEnrolled = messageJson.status;
           res.render('home', {user: username, userEnrolled: userEnrolled});
         } else {
@@ -110,23 +99,13 @@ app.get('/', function(req, res){
       
     });
 
-  client.connect('ws://localhost:8081/', 'ws-protocol');
+  client.connect('ws://sdk-server:8081/', 'ws-protocol');
   }
   else{
     res.render('home', {user: username, userEnrolled: userEnrolled});
   }
-  //res.render('home', {user: username, userEnrolled: userEnrolled});
-});
 
-/*app.get('/queryEnrollmentStatus', function(req, res){
-  //console.log(req.body);
-  console.log("got queryEnrollmentStatus")
-  if(req.session.user) {
-    username = req.session.user.cn;
-  }
-  console.log("rendering home with ", username, ", ", userEnrolled);
-  res.render('home', {user: username, userEnrolled: userEnrolled});
-});*/
+});
 
 //displays our signup page
 app.get('/signin', function(req, res){
@@ -135,17 +114,13 @@ app.get('/signin', function(req, res){
 
 //sends the request through our local signup strategy, and if successful takes user to homepage, otherwise returns then to signin page
 app.post('/local-reg', function(req, res) {
-    console.log('connecting to websocket');
     var WebSocketClient = require('websocket').client;
     var client = new WebSocketClient();
     client.on('connect', function(connection) {
-      console.log('WebSocket client connected');
       connection.on('message', function(message) {
-        console.log('Received message: ', message.utf8Data);
         messageJson = JSON.parse(message.utf8Data);
         const messageType = messageJson.message;
         if(messageType === 'enrolStatus') {
-          console.log('received enrolStatus: ', messageJson.status);
           if(messageJson.status === 'ok') {
             res.render('signin', {message: "User enrolled successfully"})
           }
@@ -158,15 +133,13 @@ app.post('/local-reg', function(req, res) {
         }
       });
 
-      //console.log(req.body);
       const message = {messageType: 'register',
                       data: req.body};
       connection.send(JSON.stringify(message));
     });
 
-    client.connect('ws://localhost:8081/', 'ws-protocol');
-    
-    //res.render('home');
+    client.connect('ws://sdk-server:8081/', 'ws-protocol');
+
   }
 );
 
@@ -188,15 +161,10 @@ app.get('/logout', function(req, res){
 });
 
 app.post('/login', async function(req, res, next) {
-  console.log("Attempting passport auth: ", req);
   passport.authenticate('ldapauth', async function (err, user, info){
     if(user){
       console.log("successfully authenticated user:", user);
-      const queryEnrol = require('../sdk/enrolUser').getUserEnrolmentStatus;
-      const enrolStatus = await queryEnrol(user.cn);
-      console.log("got enrolment status = ", enrolStatus);
       req.session.user = user;
-      req.session.user.enrolStatus = enrolStatus;
       res.redirect('/');
     } else {
       res.redirect('/signin');

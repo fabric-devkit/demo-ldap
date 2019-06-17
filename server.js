@@ -45,7 +45,7 @@ wsServer.on('request', function(request) {
             if(messageJson.messageType === 'register') {
               const username = messageJson.data.username;
               const password = messageJson.data.password;
-              console.log('registering: ', username, ', ', password);
+
               const enrol = require('./enrolUser').enrolUser;
               let enrolStatus = "fail";
               try{

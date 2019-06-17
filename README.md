@@ -29,7 +29,7 @@ To register a new user to the CA, Click on "Sign in", then "I need to create an 
 ## WebSocket server **
 This creates a WebSocket server that listens for messages on port 8081 and interacts with the HLF network via the SDK. At present, only the enrol functionality has been implemented.
 
-## Webapp **Work in progress**
+## Webapp
 Intended to provide a user logon interface which will then allow authenticated interaction with the blockchain.
 
 At present, the user can log on using an account that has been created using the ``addUser.sh`` followed by one of the ``enrolUser`` scripts.
