@@ -3,6 +3,20 @@
 
 var WebSocketServer = require('websocket').server;
 var http = require('http');
+
+async function querycc() {
+  console.log('Querying Chaincode...');
+  var fabricClient = require('./config/FabricClient');
+  var client = fabricClient;
+  //var fabricCAClient;
+  await client.initCredentialStores();
+  //fabricCAClient = client.getCertificateAuthority();
+  const fcn = "queryAllCars";
+  const queryChaincode = require('./invoke.js').queryChaincode;
+  const chaincodeContent = await queryChaincode(client, fcn);
+  console.log(chaincodeContent);console.log('Querying Chaincode...');
+  
+}
  
 var server = http.createServer(function(request, response) {
     console.log((new Date()) + ' Received request for ' + request.url);
@@ -63,6 +77,9 @@ wsServer.on('request', function(request) {
               const username = messageJson.data;
               const queryEnrol = require('./enrolUser').getUserEnrolmentStatus;
               const enrolStatus = await queryEnrol(username);
+              if(enrolStatus) {
+                await querycc();
+              }
               const reply = {
                 message: 'checkEnrolStatus',
                 status: enrolStatus
@@ -77,6 +94,16 @@ wsServer.on('request', function(request) {
                 hash: commitHash
               }
               connection.sendUTF(JSON.stringify(reply));
+            } else if(messageJson.messageType === 'queryChaincode') {
+              console.log('Querying Chaincode...');
+              var fabricClient = require('./config/FabricClient');
+              var client = fabricClient;
+              var fabricCAClient;
+              await client.initCredentialStores();
+              fabricCAClient = client.getCertificateAuthority();
+              const fcn = "queryAllCars";
+              const chaincodeContent = await queryChaincode(fabricCAClient, fcn);
+              console.log(chaincodeContent);
             }
             
             //connection.sendUTF(message.utf8Data);

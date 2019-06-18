@@ -8,11 +8,14 @@ RUN mkdir -p /server/sdk
 WORKDIR /server/sdk
 COPY server.js /server/sdk
 COPY enrolUser.js /server/sdk
+COPY invoke.js /server/sdk
+COPY services.json /server/sdk
 COPY crypto-config /server/sdk
 COPY package.json /server/sdk
 COPY package-lock.json /server/sdk
 ADD config /server/sdk/config
 ADD crypto-config /server/sdk/crypto-config
+ADD crypto-config /server/sdk/config/crypto-config
 RUN  npm install
 
 EXPOSE 8081
