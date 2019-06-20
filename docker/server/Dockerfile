@@ -1,7 +1,7 @@
 # DockerfilHLF SDK server
 FROM amd64/ubuntu:latest
-RUN apt-get update
-RUN apt-get install nodejs npm git -y
+RUN apt update
+RUN apt install npm git -y
 
 # install the sdk server
 RUN mkdir -p /server/sdk

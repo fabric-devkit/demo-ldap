@@ -13,8 +13,9 @@ async function querycc(username, password) {
   enrolledUserObj = await client.setUserContext({ username: username, password: password });
   //fabricCAClient = client.getCertificateAuthority();
   const fcn = "queryAllCars";
+  const args = [""];
   const queryChaincode = require('./invoke.js').queryChaincode;
-  const chaincodeContent = await queryChaincode(client, fcn);
+  const chaincodeContent = await queryChaincode(client, fcn, args);
   console.log(chaincodeContent);console.log('Querying Chaincode...');
   
 }

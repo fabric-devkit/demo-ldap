@@ -95,7 +95,7 @@ app.get('/', function(req, res){
       const message = {messageType: 'queryEnrolStatus',
                     data: {
                       username: username,
-                      password: password
+                      password: "adminpw"
                     }
                   };
       connection.send(JSON.stringify(message));
