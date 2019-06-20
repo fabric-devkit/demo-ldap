@@ -16,9 +16,9 @@ var OPTS = {
   passReqToCallback: true,
   server: {
     url: 'ldap://ldap-server:389',
-    bindDN: 'cn=admin,dc=example,dc=org',
+    bindDN: 'cn=admin,dc=example,dc=com',
     bindCredentials: 'adminpw',
-    searchBase: 'dc=example,dc=org',
+    searchBase: 'dc=example,dc=com',
     searchFilter: '(cn={{username}})'
   }
 };

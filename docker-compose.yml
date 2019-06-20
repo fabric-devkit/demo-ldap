@@ -43,7 +43,8 @@ services:
      - "389:389"
      - "689:689"
     environment:
-      - LDAP_ORGANISATION=example.org
+      - LDAP_ORGANISATION=example.com
+      - LDAP_DOMAIN=example.com
       - LDAP_ADMIN_PASSWORD=adminpw
     networks:
       - basic

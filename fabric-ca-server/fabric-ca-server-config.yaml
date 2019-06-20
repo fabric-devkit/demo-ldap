@@ -168,7 +168,7 @@ ldap:
    # If this is set to true, the "registry" section is ignored.
    enabled: true
    # The URL of the LDAP server
-   url: ldap://cn=admin,dc=example,dc=org:adminpw@ldap-server:389/dc=example,dc=org
+   url: ldap://cn=admin,dc=example,dc=com:adminpw@ldap-server:389/dc=example,dc=com
    userfilter: (cn=%s)	
    # TLS configuration for the client connection to the LDAP server
    tls:
