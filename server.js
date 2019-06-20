@@ -4,12 +4,13 @@
 var WebSocketServer = require('websocket').server;
 var http = require('http');
 
-async function querycc() {
+async function querycc(username, password) {
   console.log('Querying Chaincode...');
   var fabricClient = require('./config/FabricClient');
   var client = fabricClient;
   //var fabricCAClient;
   await client.initCredentialStores();
+  enrolledUserObj = await client.setUserContext({ username: username, password: password });
   //fabricCAClient = client.getCertificateAuthority();
   const fcn = "queryAllCars";
   const queryChaincode = require('./invoke.js').queryChaincode;
@@ -74,11 +75,12 @@ wsServer.on('request', function(request) {
               }
               connection.sendUTF(JSON.stringify(reply));              
             } else if(messageJson.messageType === 'queryEnrolStatus') {
-              const username = messageJson.data;
+              const username = messageJson.data.username;
+              const password = messageJson.data.password
               const queryEnrol = require('./enrolUser').getUserEnrolmentStatus;
               const enrolStatus = await queryEnrol(username);
               if(enrolStatus) {
-                await querycc();
+                await querycc(username, password);
               }
               const reply = {
                 message: 'checkEnrolStatus',

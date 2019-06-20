@@ -93,7 +93,11 @@ app.get('/', function(req, res){
 
       // Query if the user has been enrolled with the CA
       const message = {messageType: 'queryEnrolStatus',
-                    data: username};
+                    data: {
+                      username: username,
+                      password: password
+                    }
+                  };
       connection.send(JSON.stringify(message));
       
       
