@@ -76,8 +76,21 @@ app.get('/', async function(req, res){
   let userEnrolled = false;
   if(req.session.user) {
     username = req.session.user.cn;
-    const getUserEnrolmentStatus = require('./enrolUser').getUserEnrolmentStatus;
-    userEnrolled = await getUserEnrolmentStatus(username);
+    var fabricClient = require('./config/FabricClient');
+    //var connection = fabricClient;
+    //var fabricCAClient;
+    await fabricClient.initCredentialStores();
+    const fabricCAClient = fabricClient.getCertificateAuthority();
+    let user = await fabricClient.getUserContext(username, true);
+    if(user) {
+      userEnrolled = true;
+      // query the chaincode with this user
+      const fcn = "queryAllCars";
+      const args = [""];
+      const queryChaincode = require('./invoke.js').queryChaincode;
+      const chaincodeContent = await queryChaincode(fabricClient, fcn, args);
+      console.log(chaincodeContent);
+    }
   }
   res.render('home', {user: username, userEnrolled: userEnrolled});
 
@@ -118,6 +131,7 @@ app.post('/login', async function(req, res, next) {
   passport.authenticate('ldapauth', async function (err, user, info){
     if(user){
       console.log("successfully authenticated user:", user);
+      req.session.secret = req.body.password;
       req.session.user = user;
       res.redirect('/');
     } else {
