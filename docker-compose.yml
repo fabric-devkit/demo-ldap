@@ -13,7 +13,7 @@ services:
     container_name: webApp
     build: 
       context: .
-      dockerfile: docker/webApp/Dockerfile
+      dockerfile: docker/combined/Dockerfile
     environment:
      - FABRIC_CA_CLIENT_URL=https://ca.example.com:7054  
     networks:
@@ -21,17 +21,17 @@ services:
     ports:
     - "3000:3000"
 
-  sdk.example.com:
-    container_name: sdk-server
-    build:
-      context: .
-      dockerfile: docker/server/Dockerfile
-    environment:
-     - FABRIC_CA_CLIENT_URL=https://ca.example.com:7054  
-    networks:
-    - basic
-    ports:
-    - "8081:8081" 
+  #sdk.example.com:
+  #  container_name: sdk-server
+  #  build:
+  #    context: .
+  #    dockerfile: docker/server/Dockerfile
+  #  environment:
+  #   - FABRIC_CA_CLIENT_URL=https://ca.example.com:7054  
+  #  networks:
+  #  - basic
+  #  ports:
+  #  - "8081:8081" 
     
   # An example LDAP server to authenticate against. In reality this would be
   # the organisation's production LDAP server

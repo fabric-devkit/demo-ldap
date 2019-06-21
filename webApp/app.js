@@ -70,40 +70,16 @@ app.set('view engine', 'handlebars');
 
 //===============ROUTES=================
 //displays our homepage
-app.get('/', function(req, res){
+app.get('/', async function(req, res){
   
   let username = undefined;
   let userEnrolled = false;
   if(req.session.user) {
     username = req.session.user.cn;
-
-    var WebSocketClient = require('websocket').client;
-    var client = new WebSocketClient();
-    client.on('connect', function(connection) {
-      connection.on('message', function(message) {
-        messageJson = JSON.parse(message.utf8Data);
-        const messageType = messageJson.message;
-        if(messageType === 'checkEnrolStatus') {
-          userEnrolled = messageJson.status;
-          res.render('home', {user: username, userEnrolled: userEnrolled});
-        } else {
-          console.log('received unexpected message type: ', messageType);
-        }
-      });
-
-      // Query if the user has been enrolled with the CA
-      const message = {messageType: 'queryEnrolStatus',
-                    data: username};
-      connection.send(JSON.stringify(message));
-      
-      
-    });
-
-  client.connect('ws://sdk-server:8081/', 'ws-protocol');
+    const getUserEnrolmentStatus = require('./enrolUser').getUserEnrolmentStatus;
+    userEnrolled = await getUserEnrolmentStatus(username);
   }
-  else{
-    res.render('home', {user: username, userEnrolled: userEnrolled});
-  }
+  res.render('home', {user: username, userEnrolled: userEnrolled});
 
 });
 
@@ -113,42 +89,20 @@ app.get('/signin', function(req, res){
 });
 
 //sends the request through our local signup strategy, and if successful takes user to homepage, otherwise returns then to signin page
-app.post('/local-reg', function(req, res) {
-    var WebSocketClient = require('websocket').client;
-    var client = new WebSocketClient();
-    client.on('connect', function(connection) {
-      connection.on('message', function(message) {
-        messageJson = JSON.parse(message.utf8Data);
-        const messageType = messageJson.message;
-        if(messageType === 'enrolStatus') {
-          if(messageJson.status === 'ok') {
-            res.render('signin', {message: "User enrolled successfully"})
-          }
-          else {
-            res.render('signin', {message: "Failed to enrol user with Hyperledger Fabric network. Please ensure that the \
-            username and password are valid on the LDAP server"})
-          }
-        } else {
-          console.log('received unexpected message type: ', messageType);
-        }
-      });
-
-      const message = {messageType: 'register',
-                      data: req.body};
-      connection.send(JSON.stringify(message));
-    });
-
-    client.connect('ws://sdk-server:8081/', 'ws-protocol');
-
+app.post('/local-reg', async function(req, res) {
+    const username = req.body.username;
+    const password = req.body.password;
+    const enrolUser = require('./enrolUser').enrolUser;
+    const result = await enrolUser(username, password);
+    if(result === 'ok') {
+      res.render('signin', {message: "User enrolled successfully"})
+    }
+    else {
+      res.render('signin', {message: "Failed to enrol user with Hyperledger Fabric network. Please ensure that the \
+      username and password are valid on the LDAP server"})
+    }
   }
 );
-
-app.post('/upload-file', function(req, res) {
-  console.log(req);
-  // TODO: refactor WS section above so that we connect when the app is initialised and only do this once.
-  //TODO: open the file, pass the content over the websocket, get the result.
-  res.render('home');
-});
 
 //logs user out of site, deleting them from the session, and returns to homepage
 app.get('/logout', function(req, res){
