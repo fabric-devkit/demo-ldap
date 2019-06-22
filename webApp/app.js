@@ -88,6 +88,7 @@ app.get('/', async function(req, res){
       const fcn = "queryAllCars";
       const args = [""];
       const queryChaincode = require('./invoke.js').queryChaincode;
+      console.log("about to queryChaincode");
       const chaincodeContent = await queryChaincode(fabricClient, fcn, args);
       console.log(chaincodeContent);
     }
