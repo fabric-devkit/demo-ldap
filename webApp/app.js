@@ -77,18 +77,15 @@ app.get('/', async function(req, res){
   if(req.session.user) {
     username = req.session.user.cn;
     var fabricClient = require('./config/FabricClient');
-    //var connection = fabricClient;
-    //var fabricCAClient;
     await fabricClient.initCredentialStores();
-    const fabricCAClient = fabricClient.getCertificateAuthority();
+    await fabricClient.getCertificateAuthority();
     let user = await fabricClient.getUserContext(username, true);
     if(user) {
-      userEnrolled = true;
+      console.log("Performing initial query as ", user);
       // query the chaincode with this user
       const fcn = "queryAllCars";
       const args = [""];
       const queryChaincode = require('./invoke.js').queryChaincode;
-      console.log("about to queryChaincode");
       const chaincodeContent = await queryChaincode(fabricClient, fcn, args);
       console.log(chaincodeContent);
     }
