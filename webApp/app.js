@@ -83,8 +83,8 @@ app.get('/', async function(req, res){
     if(user) {
       console.log("Performing initial query as ", user);
       // query the chaincode with this user
-      const fcn = "queryAllCars";
-      const args = [""];
+      const fcn = "query";
+      const args = ["A"];
       const queryChaincode = require('./invoke.js').queryChaincode;
       const chaincodeContent = await queryChaincode(fabricClient, fcn, args);
       console.log(chaincodeContent);
