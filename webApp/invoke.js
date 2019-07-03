@@ -56,7 +56,6 @@ module.exports.queryChaincode = async (client, fcn, args) => {
 	};
 
 	try {
-		console.log("sending request ", request, " to channel ", channel);
 		let responsePayloads = await channel.queryByChaincode(request);
 		if (responsePayloads) {
 

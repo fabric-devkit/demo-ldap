@@ -1,7 +1,7 @@
 {
     "host":"localhost",
     "port":"8080",
-    "networkConfig": "network-config.yaml",
+    "networkConfig": "ConnectionProfile.yaml",
     "orgConfig": "org1.yaml",
     "adminCred": {
         "enrollmentID": "admin",
@@ -11,7 +11,7 @@
         "org": "org1",
         "peer": "peer0.org1.example.com",
         "loggingLevel": "debug",
-        "chaincodeName": "chaincode_example02",
+        "chaincodeName": "minimalcc",
         "channelName": "mychannel",
         "targets":["peer0.org1.example.com"]
     }

@@ -74,23 +74,26 @@ app.get('/', async function(req, res){
   
   let username = undefined;
   let userEnrolled = false;
+  let userChaincodeState = undefined;
   if(req.session.user) {
     username = req.session.user.cn;
+    userEnrolled = true;
     var fabricClient = require('./config/FabricClient');
     await fabricClient.initCredentialStores();
     await fabricClient.getCertificateAuthority();
     let user = await fabricClient.getUserContext(username, true);
     if(user) {
-      console.log("Performing initial query as ", user);
       // query the chaincode with this user
       const fcn = "query";
-      const args = ["A"];
+      const args = [username];
       const queryChaincode = require('./invoke.js').queryChaincode;
       const chaincodeContent = await queryChaincode(fabricClient, fcn, args);
-      console.log(chaincodeContent);
+
+      console.log("Setting userChaincodeState to ", chaincodeContent.payload.responses[0]);
+      userChaincodeState = chaincodeContent.payload.responses[0];
     }
   }
-  res.render('home', {user: username, userEnrolled: userEnrolled});
+  res.render('home', {user: username, userEnrolled: userEnrolled, userChaincodeState: userChaincodeState});
 
 });
 

@@ -32,14 +32,12 @@ docker exec -e "CORE_PEER_LOCALMSPID=Org1MSP" -e "CORE_PEER_MSPCONFIGPATH=/etc/h
 . utils.sh
 
 ## Defines needed for chaincode
-CC_SRC_PATH="github.com/chaincode_example02/go"
+CC_SRC_PATH="github.com/minimalcc"
 CHANNEL_NAME="mychannel"
 CC_RUNTIME_LANGUAGE="golang"
 VERSION="1.0"
 
 ## install and instantiate chaincode
-docker exec cli peer chaincode install -n chaincode_example02 -v 1.0 -p "$CC_SRC_PATH" -l "$CC_RUNTIME_LANGUAGE"
-docker exec cli peer chaincode instantiate -o orderer.example.com:7050 -C mychannel -n chaincode_example02 -l "$CC_RUNTIME_LANGUAGE" -v 1.0 -c '{"Args":["init", "A", "10", "B", "10"]}' -P "OR ('Org1MSP.member')"
+docker exec cli peer chaincode install -n minimalcc -v 1.0 -p "$CC_SRC_PATH" -l "$CC_RUNTIME_LANGUAGE"
+docker exec cli peer chaincode instantiate -o orderer.example.com:7050 -C mychannel -n minimalcc -l "$CC_RUNTIME_LANGUAGE" -v 1.0 -c '{"Args":["init", "admin", "10", "B", "10"]}' -P "OR ('Org1MSP.member')"
 sleep 10
-
-#docker exec cli peer chaincode invoke -o orderer.example.com:7050 -C mychannel -n chaincode_example02 -c '{"function":"initLedger","Args":[]}'
