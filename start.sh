@@ -12,7 +12,7 @@ set -ev
 export MSYS_NO_PATHCONV=1
 
 # Take down any running containers, including the LDAP server
-docker-compose -f docker-compose.yml down
+docker-compose -f docker-compose.yml stop
 
 # Start the HLF Docker containers
 docker-compose -f docker-compose.yml up -d 

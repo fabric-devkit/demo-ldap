@@ -33,7 +33,10 @@ This creates a WebSocket server that listens for messages on port 8081 and inter
 Intended to provide a user logon interface which will then allow authenticated interaction with the blockchain.
 
 At present, the user can log on using an account that has been created using the ``addUser.sh`` followed by one of the ``enrolUser`` scripts.
-The ``I need to create an account`` route enrols a previously created LDAP user into the HLF network.
+The ``I need to create an account`` route enrols a previously created LDAP user into the HLF network. Enrolment of users should persist across 
+stopping and restarting the network, using the provided scripts. If you need to start with a fresh set of users, running ``docker-compose down`` 
+will remove the internally-stored set of users in both LDAP and Fabric. The next time the netowrk is started, only the 'admin' user will exist 
+on the LDAP server, and will require re-enrolling on the Fabric client.
 
 <a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>
 
