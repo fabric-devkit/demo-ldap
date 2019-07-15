@@ -77,12 +77,14 @@ app.get('/', async function(req, res){
   let userChaincodeState = undefined;
   if(req.session.user) {
     username = req.session.user.cn;
-    userEnrolled = true;
+    
     var fabricClient = require('./config/FabricClient');
     await fabricClient.initCredentialStores();
     await fabricClient.getCertificateAuthority();
     let user = await fabricClient.getUserContext(username, true);
     if(user) {
+      userEnrolled = true;
+      
       // query the chaincode with this user
       const fcn = "query";
       const args = [username];
