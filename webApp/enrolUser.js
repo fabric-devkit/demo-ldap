@@ -1,22 +1,7 @@
 'use strict';
 
-/*async function getUserEnrolmentStatus(username, fabricClient) {
-  console.log('checking enrolment status for user: ', username);
-  var fabricClient = require('./config/FabricClient');
-  var connection = fabricClient;
-  //var fabricCAClient;
-  await connection.initCredentialStores();
-  fabricCAClient = connection.getCertificateAuthority();
-  let user = await connection.getUserContext(username, true);
-  if(user){
-    return true;
-  } else {
-    return false;
-  }
-}*/
-
 async function enrolUser(username, password) {
-  var fabricClient = require('./config/FabricClient');
+  var fabricClient = require('./FabricClient');
   var FabricCAClient = require('fabric-ca-client');
   var connection = fabricClient;
   var fabricCAClient;

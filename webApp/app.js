@@ -78,7 +78,7 @@ app.get('/', async function(req, res){
   if(req.session.user) {
     username = req.session.user.cn;
     
-    var fabricClient = require('./config/FabricClient');
+    var fabricClient = require('./FabricClient');
     await fabricClient.initCredentialStores();
     await fabricClient.getCertificateAuthority();
     let user = await fabricClient.getUserContext(username, true);

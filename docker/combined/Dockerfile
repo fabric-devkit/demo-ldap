@@ -8,6 +8,7 @@ RUN npm install -g npm@5.5.1
 RUN mkdir -p /server/webApp
 WORKDIR /server/webApp
 COPY webApp /server/webApp/
+COPY ConnectionProfile.yml /server/webApp/
 ADD config /server/webApp/config
 ADD crypto-config /server/webApp/crypto-config
 RUN npm install
