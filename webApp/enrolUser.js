@@ -1,5 +1,10 @@
 'use strict';
 
+/**
+ * Enrol a user from LDAP into the Fabric CA
+ * @param {String} username - LDAP username
+ * @param {String} password - LDAP password
+ */
 async function enrolUser(username, password) {
   var fabricClient = require('./FabricClient');
   var FabricCAClient = require('fabric-ca-client');
@@ -45,6 +50,5 @@ async function enrolUser(username, password) {
 
 
 module.exports = {
-  enrolUser: enrolUser/*,
-  getUserEnrolmentStatus: getUserEnrolmentStatus*/
+  enrolUser: enrolUser
 };
