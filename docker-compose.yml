@@ -34,6 +34,9 @@ services:
       - LDAP_ORGANISATION=example.com
       - LDAP_DOMAIN=example.com
       - LDAP_ADMIN_PASSWORD=adminpw
+    volumes:
+     # used to get ldif file into LDAP when adding new user
+     - /tmp:/tmp
     networks:
       - basic
 
