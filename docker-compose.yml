@@ -1,13 +1,7 @@
-#
-# Copyright IBM Corp All Rights Reserved
-#
-# SPDX-License-Identifier: Apache-2.0
-#
-version: '2'
 
+version: '3'
 networks:
-  basic:
-
+    basic:
 services:
   webapp.example.com:
     container_name: webApp
@@ -153,7 +147,5 @@ services:
         - ./crypto-config:/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/
     networks:
         - basic
-    #depends_on:
-    #  - orderer.example.com
-    #  - peer0.org1.example.com
-    #  - couchdb
+ 
+  
