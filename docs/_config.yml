@@ -1,0 +1,8 @@
+title: "Fabric Devkit"
+remote_theme: pmarsceill/just-the-docs
+color_scheme: "light"
+search_enabled: true
+
+aux_links:
+    "Fabric Devkit on GitHub":
+      - "//github.com/fabric-devkit/"
