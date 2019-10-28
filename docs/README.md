@@ -40,7 +40,7 @@ on the LDAP server, and will require re-enrolling on the Fabric client.
 The user can log on using any account that exists on the LDAP server, but Fabric functionality will only work if that user has been enrolled with the Fabric CA. To demonstrate this, the user's home page displays a "Fabric Enrollmment status" line that displays the result of a query to the CA using the NodeJS SDK.
 
 The demo application has been configured with a simple chaincode that assigns a notional balance to a user. Try enrolling and logging on as the ``admin`` user, and you should see something like this:
-![Alt text](assets/authenticated.png?raw=true "Enrolled Logon")
+![Alt text](images/authenticated.png?raw=true "Enrolled Logon")
 The "Enrollmment status" line on the home page shows "true".
 The "Current holdings" line shows the result of running a query as the current enrolled user. In the case of the admin user, this will return 10.
 
@@ -49,7 +49,7 @@ The user can still log in (as the login is authenticated from LDAP, not the CA)
 The "Enrollment status" line in the user home account will show "false".
 The chaincode query field will be empty.
 
-![Alt text](assets/unauthenticated.png?raw=true "Unenrolled Logon")
+![Alt text](images/unauthenticated.png?raw=true "Unenrolled Logon")
 
 <a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>
 
