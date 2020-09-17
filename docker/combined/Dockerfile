@@ -1,8 +1,10 @@
 # DockerfilHLF SDK server
 FROM amd64/ubuntu:latest
+ENV TZ=Europe/London
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezon
 RUN apt-get update
 RUN apt-get install nodejs npm git -y
-RUN npm install -g npm@5.5.1
+#RUN npm install -g npm@5.5.1
 
 # install the web app
 RUN mkdir -p /server/webApp
