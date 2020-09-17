@@ -3,3 +3,4 @@ node_modules
 webApp/node_modules
 npm-debug.log
 fabric-ca-server/fabric-ca-server.db
+fabric-ca-server/msp/signcerts/cert.pem
